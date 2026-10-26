@@ -1,0 +1,890 @@
+@import "tailwindcss";
+
+/* ============================================================
+   TRC Tech Hiring: design tokens
+   Values sampled from the TRC Corporate Consulting logo file
+   (#053736 wordmark, #6ebe48 bracket) and the live stylesheet.
+
+   Raw values live on :root and flip per theme, so the Tailwind
+   utilities below resolve correctly in light and dark with no
+   `dark:` prefix anywhere in the markup.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* Light layering: a soft green-grey page, white raised cards on it, and
+     deeper bands for alternate sections. Dark keeps its own values below. */
+  --trc-surface-canvas: #f6f9f7;
+  --trc-surface-100: #ffffff;
+  --trc-surface-200: #edf3f0;
+  --trc-surface-300: #e2eae6;
+  /* A neutral card that has to stand off the page: white in light, one step up in dark. */
+  --trc-surface-raised: #ffffff;
+  /* Brand surfaces (hero, How it works band, footer, brand cards and buttons).
+     No dark fills in light: a light brand mint with teal text on it. Dark keeps
+     the wordmark teal. */
+  --trc-surface-brand: #e0eee9;
+  --trc-surface-accent: #6ebe48;
+  --trc-surface-accent-hover: #5fa93c;
+  /* A card sitting on a brand surface: white on the mint in light. */
+  --trc-surface-brand-hover: #ffffff;
+  /* Edge of brand cards and the brand button: a soft line on the mint in light;
+     in dark it outlines the button, which would otherwise sink into the page (3.1:1). */
+  --trc-brand-edge: #c4dad2;
+
+  --trc-ink-900: #053736;
+  --trc-ink-700: #2d4442;
+  /* 5.1:1 on surface-200, 4.7:1 on surface-300. */
+  --trc-ink-500: #566a67;
+  /* Text on brand surfaces: teal on the mint in light (10.9:1), white on teal in dark. */
+  --trc-ink-on-brand: #053736;
+  --trc-ink-on-accent: #053736;
+
+  /* 5.3:1 on surface-200, so small green text stays readable on the bands. */
+  --trc-accent-700: #387024;
+
+  --trc-line-100: #d8e3de;
+  --trc-line-200: #6f8884;
+  --trc-focus-ring: #053736;
+
+  --trc-danger-600: #b3261e;
+  --trc-success-600: #2f6f23;
+  --trc-warning-600: #8a5a00;
+
+  --trc-overlay: rgba(5, 55, 54, 0.72);
+
+  /* Client logos are supplied on white, so their tiles stay white in both themes. */
+  --trc-logo-tile: #ffffff;
+
+  /* Green text and icons on brand surfaces: the darker green on the mint (5.0:1). */
+  --trc-accent-on-brand: #387024;
+  /* The same on surface-brand-hover. In dark that is the lighter teal, where the
+     plain accent drops to 4.4:1, so it takes a lighter green (5.7:1). */
+  --trc-accent-on-brand-hover: #387024;
+
+  /* Preview-only Draft markers sitting on surface-brand. */
+  --trc-warning-on-brand: #8a5a00;
+
+  /* The hero's slide photos: fainter on the light mint, so teal text keeps its contrast. */
+  --trc-hero-photo-opacity: 0.14;
+
+  --trc-shadow-sm: 0 1px 2px rgba(5, 55, 54, 0.06), 0 1px 3px rgba(5, 55, 54, 0.05);
+  --trc-shadow-md: 0 2px 6px rgba(5, 55, 54, 0.05), 0 16px 36px -12px rgba(5, 55, 54, 0.18);
+  /* The framed card's drop shadow, at rest and lifted. */
+  --trc-shadow-card: 0 24px 48px -24px rgba(5, 55, 54, 0.3);
+  --trc-shadow-card-hover: 0 32px 56px -24px rgba(5, 55, 54, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --trc-surface-canvas: #04211f;
+    --trc-surface-100: #04211f;
+    --trc-surface-200: #0a2e2b;
+    --trc-surface-300: #113a37;
+    --trc-surface-raised: #0a2e2b;
+    --trc-surface-brand: #053736;
+    --trc-surface-brand-hover: #0a4a48;
+    --trc-ink-on-brand: #ffffff;
+    --trc-accent-on-brand: #6ebe48;
+    --trc-accent-on-brand-hover: #8fd46e;
+    --trc-warning-on-brand: #ffc766;
+    --trc-hero-photo-opacity: 0.25;
+
+    --trc-ink-900: #eef5f2;
+    --trc-ink-700: #c6d6d2;
+    --trc-ink-500: #95a9a5;
+
+    --trc-accent-700: #8fd46e;
+
+    --trc-line-100: #17413e;
+    --trc-line-200: #5c7a75;
+    --trc-brand-edge: #5c7a75;
+    --trc-focus-ring: #6ebe48;
+
+    --trc-danger-600: #ff8a80;
+    --trc-success-600: #8fd46e;
+    --trc-warning-600: #ffc766;
+
+    --trc-overlay: rgba(2, 16, 15, 0.8);
+
+    --trc-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --trc-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+    --trc-shadow-card: 0 24px 48px -24px rgb(0 0 0 / 0.55);
+    --trc-shadow-card-hover: 0 32px 56px -24px rgb(0 0 0 / 0.65);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --trc-surface-canvas: #04211f;
+  --trc-surface-100: #04211f;
+  --trc-surface-200: #0a2e2b;
+  --trc-surface-300: #113a37;
+  --trc-surface-raised: #0a2e2b;
+  --trc-surface-brand: #053736;
+  --trc-surface-brand-hover: #0a4a48;
+  --trc-ink-on-brand: #ffffff;
+  --trc-accent-on-brand: #6ebe48;
+  --trc-accent-on-brand-hover: #8fd46e;
+  --trc-warning-on-brand: #ffc766;
+  --trc-hero-photo-opacity: 0.25;
+
+  --trc-ink-900: #eef5f2;
+  --trc-ink-700: #c6d6d2;
+  --trc-ink-500: #95a9a5;
+
+  --trc-accent-700: #8fd46e;
+
+  --trc-line-100: #17413e;
+  --trc-line-200: #5c7a75;
+  --trc-brand-edge: #5c7a75;
+  --trc-focus-ring: #6ebe48;
+
+  --trc-danger-600: #ff8a80;
+  --trc-success-600: #8fd46e;
+  --trc-warning-600: #ffc766;
+
+  --trc-overlay: rgba(2, 16, 15, 0.8);
+
+  --trc-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --trc-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --trc-shadow-card: 0 24px 48px -24px rgb(0 0 0 / 0.55);
+  --trc-shadow-card-hover: 0 32px 56px -24px rgb(0 0 0 / 0.65);
+}
+
+/* ============================================================
+   Tailwind theme. `inline` keeps the var() reference in the
+   generated utility, so one class works in both themes.
+   ============================================================ */
+
+@theme inline {
+  --color-surface-canvas: var(--trc-surface-canvas);
+  --color-surface-raised: var(--trc-surface-raised);
+  --color-surface-100: var(--trc-surface-100);
+  --color-surface-200: var(--trc-surface-200);
+  --color-surface-300: var(--trc-surface-300);
+  --color-surface-brand: var(--trc-surface-brand);
+  --color-surface-accent: var(--trc-surface-accent);
+  --color-surface-accent-hover: var(--trc-surface-accent-hover);
+  --color-surface-brand-hover: var(--trc-surface-brand-hover);
+  --color-brand-edge: var(--trc-brand-edge);
+
+  --color-ink-900: var(--trc-ink-900);
+  --color-ink-700: var(--trc-ink-700);
+  --color-ink-500: var(--trc-ink-500);
+  --color-ink-on-brand: var(--trc-ink-on-brand);
+  --color-ink-on-accent: var(--trc-ink-on-accent);
+
+  --color-accent-700: var(--trc-accent-700);
+  --color-accent-on-brand: var(--trc-accent-on-brand);
+  --color-accent-on-brand-hover: var(--trc-accent-on-brand-hover);
+
+  --color-line-100: var(--trc-line-100);
+  --color-line-200: var(--trc-line-200);
+  --color-focus-ring: var(--trc-focus-ring);
+
+  --color-danger-600: var(--trc-danger-600);
+  --color-success-600: var(--trc-success-600);
+  --color-warning-600: var(--trc-warning-600);
+
+  --color-overlay: var(--trc-overlay);
+  --shadow-card: var(--trc-shadow-card);
+  --shadow-card-hover: var(--trc-shadow-card-hover);
+  --color-warning-on-brand: var(--trc-warning-on-brand);
+  --color-logo-tile: var(--trc-logo-tile);
+
+  --font-sans: var(--font-readex), "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-display-xl: 56px;
+  --text-display-xl--line-height: 60px;
+  --text-display-xl--font-weight: 600;
+  --text-display-xl--letter-spacing: -0.02em;
+
+  --text-display-lg: 44px;
+  --text-display-lg--line-height: 50px;
+  --text-display-lg--font-weight: 600;
+  --text-display-lg--letter-spacing: -0.015em;
+
+  --text-display-md: 34px;
+  --text-display-md--line-height: 42px;
+  --text-display-md--font-weight: 600;
+  --text-display-md--letter-spacing: -0.01em;
+
+  /* Section titles on phones, so the 34px hero headline stays the largest text. */
+  --text-display-sm: 30px;
+  --text-display-sm--line-height: 38px;
+  --text-display-sm--font-weight: 600;
+  --text-display-sm--letter-spacing: -0.01em;
+
+  --text-heading-lg: 26px;
+  --text-heading-lg--line-height: 34px;
+  --text-heading-lg--font-weight: 600;
+
+  --text-heading-md: 20px;
+  --text-heading-md--line-height: 28px;
+  --text-heading-md--font-weight: 600;
+
+  --text-heading-sm: 17px;
+  --text-heading-sm--line-height: 24px;
+  --text-heading-sm--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 30px;
+  --text-body-lg--font-weight: 400;
+
+  --text-body: 16px;
+  --text-body--line-height: 26px;
+  --text-body--font-weight: 400;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 22px;
+  --text-body-sm--font-weight: 400;
+
+  --text-caption: 13px;
+  --text-caption--line-height: 18px;
+  --text-caption--font-weight: 400;
+
+  --text-eyebrow: 12px;
+  --text-eyebrow--line-height: 16px;
+  --text-eyebrow--font-weight: 600;
+  --text-eyebrow--letter-spacing: 0.1em;
+
+  --text-btn-label: 15px;
+  --text-btn-label--line-height: 20px;
+  --text-btn-label--font-weight: 600;
+
+  --text-field-label: 14px;
+  --text-field-label--line-height: 18px;
+  --text-field-label--font-weight: 500;
+
+  --text-stat: 44px;
+  --text-stat--line-height: 48px;
+  --text-stat--font-weight: 600;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* For very wide screens, where the full-width testimonial wall grows. */
+  --breakpoint-3xl: 112.5rem;
+
+  --shadow-sm: var(--trc-shadow-sm);
+  --shadow-md: var(--trc-shadow-md);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--trc-surface-canvas);
+    color: var(--trc-ink-700);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--trc-focus-ring);
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Site helpers
+   ============================================================ */
+
+/* The sticky header must never hide a focused or linked element (WCAG 2.2, 2.4.11). */
+html {
+  scroll-padding-top: 96px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Raster logos cannot take a CSS variable, so swap the file by theme.
+   Same three-state logic as the tokens: system dark unless forced light, or forced dark. */
+.only-dark {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .only-light {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .only-dark {
+    display: revert;
+  }
+}
+:root[data-theme="dark"] .only-light {
+  display: none;
+}
+:root[data-theme="dark"] .only-dark {
+  display: revert;
+}
+
+
+/* ============================================================
+   Client logo carousel
+   ============================================================ */
+
+@keyframes trc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@layer components {
+  /* Two identical copies side by side; moving by half the width loops seamlessly. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: trc-marquee 45s linear infinite;
+    /* The track is a stacking context, so the logos' blend modes mix with
+       this background. It must match the section behind it. */
+    background: var(--trc-surface-canvas);
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* Logos without tiles. Multiply drops a white background on the light page;
+     in dark mode the logo is inverted and screen drops the now-black background.
+     Works for transparent and solid-background files alike. */
+  .logo-mono {
+    filter: grayscale(1);
+    mix-blend-mode: multiply;
+    opacity: 0.7;
+    transition: opacity 150ms ease-out, filter 150ms ease-out;
+  }
+  .logo-mono:hover {
+    filter: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-mono,
+  :root:not([data-theme="light"]) .logo-mono:hover {
+    filter: grayscale(1) invert(1);
+    mix-blend-mode: screen;
+  }
+}
+:root[data-theme="dark"] .logo-mono,
+:root[data-theme="dark"] .logo-mono:hover {
+  filter: grayscale(1) invert(1);
+  mix-blend-mode: screen;
+}
+
+/* Reduced motion: no movement at all, every logo visible at once. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .marquee-copy[aria-hidden="true"] {
+    display: none;
+  }
+  .marquee-fade {
+    mask-image: none !important;
+  }
+}
+
+/* ============================================================
+   Dual-path doors: on wide screens with a pointer, the door being
+   hovered or focused opens wider. The copy inside has a fixed width,
+   so only the door's colour field grows and nothing re-wraps.
+   ============================================================ */
+
+@layer components {
+  @media (min-width: 80rem) {
+    .doors > .door {
+      flex: 1 1 0%;
+      transition: flex-grow 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .doors > .door:focus-within {
+      flex-grow: 1.3;
+    }
+  }
+  @media (min-width: 80rem) and (hover: hover) {
+    .doors > .door:hover {
+      flex-grow: 1.3;
+    }
+  }
+  @media (min-width: 64rem) and (max-width: 79.999rem) {
+    .doors > .door {
+      flex: 1 1 0%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doors > .door {
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   FAQ answers slide open where the browser can animate to an
+   automatic height; elsewhere they simply appear.
+   ============================================================ */
+
+@layer components {
+  .faq-item {
+    interpolate-size: allow-keywords;
+  }
+  .faq-item::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 350ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      content-visibility 350ms allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item::details-content {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Animated domain icons (Who we hire for). Parts animate when an
+   ancestor has data-play="true" (three loops, then rest),
+   data-play="intro" (once), is hovered (loops while hovered), or is
+   concept 3's main (data-icons="loop": loops for good).
+   ============================================================ */
+
+@keyframes di-rise { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+@keyframes di-drop { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-1.6px); } 55% { transform: translateY(0.4px); } }
+@keyframes di-float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(0.6px, -1.4px); } }
+@keyframes di-flicker { 0%, 100% { transform: scaleY(1); opacity: 1; } 25% { transform: scaleY(1.45); } 50% { transform: scaleY(0.8); opacity: 0.6; } 75% { transform: scaleY(1.3); } }
+@keyframes di-light { 0%, 100% { opacity: 0.25; } 40%, 60% { opacity: 1; } }
+@keyframes di-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+@keyframes di-run { to { stroke-dashoffset: -11; } }
+@keyframes di-turn { to { transform: rotate(360deg); } }
+@keyframes di-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.7); } }
+
+@layer components {
+  .domain-icon * {
+    transform-box: fill-box;
+  }
+  .domain-icon .di-bar,
+  .domain-icon .di-col { transform-origin: 50% 100%; }
+  .domain-icon .di-flame { transform-origin: 50% 0%; }
+  .domain-icon .di-win { opacity: 0.25; }
+  .domain-icon .di-data { stroke-dasharray: 2.5 3; }
+  .domain-icon .di-spin { transform-box: view-box; transform-origin: 12px 12px; }
+  .domain-icon .di-core { transform-origin: 50% 50%; }
+
+  /* Three loops when played, endless while hovered. Staggers are inline
+     animation-delay values on the parts themselves. */
+  [data-play="true"] .domain-icon {
+    --di-loops: 3;
+    --di-loops-x2: 6;
+    --di-loops-x4: 12;
+  }
+  /* Every stop on the map plays once as the map scrolls into view. */
+  [data-play="intro"] .domain-icon {
+    --di-loops: 1;
+    --di-loops-x2: 2;
+    --di-loops-x4: 4;
+  }
+  .di-host:hover .domain-icon,
+  [data-icons="loop"] .domain-icon {
+    --di-loops: infinite;
+    --di-loops-x2: infinite;
+    --di-loops-x4: infinite;
+  }
+
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-bar { animation: di-rise 1.4s ease-in-out var(--di-loops) backwards; }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-roof { animation: di-drop 1.6s ease-out var(--di-loops); }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-col { animation: di-rise 1.6s ease-in-out var(--di-loops) backwards; }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-rocket { animation: di-float 1.4s ease-in-out var(--di-loops); }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-flame { animation: di-flicker 0.35s linear var(--di-loops-x4); }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-win { animation: di-light 1.8s ease-in-out var(--di-loops) backwards; }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-led { animation: di-blink 0.9s steps(2, jump-none) var(--di-loops-x2); }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-data { animation: di-run 0.9s linear var(--di-loops-x2); }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-spin { animation: di-turn 1.6s cubic-bezier(0.6, 0, 0.3, 1) var(--di-loops); }
+  :is([data-play="true"], [data-play="intro"], .di-host:hover, [data-icons="loop"]) .domain-icon .di-core { animation: di-pulse 1.6s ease-in-out var(--di-loops); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .domain-icon * {
+    animation: none !important;
+  }
+  .domain-icon .di-win { opacity: 1; }
+}
+
+/* ============================================================
+   Hiring map (Who we hire for, desktop): the active spoke's dashes
+   run outwards from TRC a few times; the hub sends out one ring
+   each time the selection changes; the detail panel fades in.
+   ============================================================ */
+
+@keyframes map-flow { to { stroke-dashoffset: -4.8; } }
+@keyframes map-pulse { from { transform: scale(1); opacity: 0.45; } to { transform: scale(1.9); opacity: 0; } }
+@keyframes map-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* The tour's progress bar. It stays on under reduced motion, where the tour only runs if the reader presses play. */
+@keyframes map-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@layer components {
+  .map-spoke-active { stroke-dasharray: 1.2 1.2; }
+  [data-inview="true"] .map-spoke-active { animation: map-flow 0.9s linear 4; }
+  [data-inview="true"] .map-pulse { animation: map-pulse 1.2s ease-out 1 forwards; }
+  .map-in { animation: map-in 400ms ease-out both; }
+  .map-progress { animation-name: map-progress; animation-timing-function: linear; animation-fill-mode: forwards; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-spoke-active,
+  .map-pulse,
+  .map-in {
+    animation: none !important;
+  }
+  .map-pulse { opacity: 0; }
+}
+
+/* ============================================================
+   Why TRC: the seniority ladder's bars grow, lowest first, as the
+   card comes into view.
+   ============================================================ */
+
+@keyframes why-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@layer components {
+  .why-card .why-bar { transform: scaleX(0); }
+  .why-card[data-inview="true"] .why-bar { animation: why-grow 800ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-card .why-bar,
+  .why-card[data-inview="true"] .why-bar {
+    transform: none;
+    animation: none;
+  }
+}
+
+/* ============================================================
+   How it works scenes, on a loop: each builds as its card mounts,
+   holds, eases back out and builds again, on one shared cycle so
+   the parts of a scene stay in step. The small idle motions (pencil,
+   typing dots, bell, arrow) run throughout. Nothing moves with
+   reduced motion set.
+   ============================================================ */
+
+/* Build-up keyframes on the cycle: in over roughly the first tenth, hold,
+   then back to the start in the last tenth, ready for the next build. */
+@keyframes sc-in-left { 0%, 100% { opacity: 0; transform: translate(-16px, 8px) rotate(-5deg); } 9%, 88% { opacity: 1; transform: none; } }
+@keyframes sc-in-right { 0%, 100% { opacity: 0; transform: translate(16px, 8px) rotate(5deg); } 9%, 88% { opacity: 1; transform: none; } }
+@keyframes sc-rise-in { 0%, 100% { opacity: 0; transform: translateY(14px); } 8%, 88% { opacity: 1; transform: none; } }
+@keyframes sc-fan-left { 0%, 100% { opacity: 0; transform: rotate(14deg) translateX(22px); } 10%, 88% { opacity: 1; transform: none; } }
+@keyframes sc-fan-right { 0%, 100% { opacity: 0; transform: rotate(-14deg) translateX(-22px); } 10%, 88% { opacity: 1; transform: none; } }
+@keyframes sc-pop { 0%, 100% { opacity: 0; transform: scale(0.3); } 6% { transform: scale(1.12); } 8%, 88% { opacity: 1; transform: none; } }
+@keyframes sc-draw { 0%, 100% { stroke-dashoffset: 1; } 6%, 88% { stroke-dashoffset: 0; } }
+@keyframes sc-fill { 0%, 100% { transform: scaleX(0); } 17%, 88% { transform: scaleX(1); } }
+@keyframes sc-letter { 0%, 100% { transform: translateY(40px); } 12%, 86% { transform: none; } }
+/* Idle motions, each with a rest so the loop does not feel busy. */
+@keyframes sc-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes sc-dot { 0%, 100% { transform: translateY(0); opacity: 0.35; } 50% { transform: translateY(-4px); opacity: 1; } }
+@keyframes sc-wiggle { 0%, 50%, 100% { transform: rotate(0); } 12% { transform: rotate(-6deg) translateX(-2px); } 37% { transform: rotate(5deg) translateX(2px); } }
+@keyframes sc-ring { 0%, 45%, 100% { transform: rotate(0); } 9% { transform: rotate(-12deg); } 18% { transform: rotate(10deg); } 27% { transform: rotate(-7deg); } 36% { transform: rotate(4deg); } }
+@keyframes sc-arc { 0%, 100% { opacity: 0; } 30%, 60% { opacity: 1; } }
+
+@layer components {
+  .sc { --sc-cycle: 6.5s; --sc-ease: cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .sc svg * { transform-box: fill-box; transform-origin: center; }
+  .sc .sc-in-left { animation: sc-in-left var(--sc-cycle) var(--sc-ease) infinite backwards; }
+  .sc .sc-in-right { animation: sc-in-right var(--sc-cycle) var(--sc-ease) infinite backwards; }
+  .sc .sc-rise-in { animation: sc-rise-in var(--sc-cycle) var(--sc-ease) infinite backwards; }
+  .sc .sc-fan-left { transform-origin: 50% 100%; animation: sc-fan-left var(--sc-cycle) var(--sc-ease) infinite backwards; }
+  .sc .sc-fan-right { transform-origin: 50% 100%; animation: sc-fan-right var(--sc-cycle) var(--sc-ease) infinite backwards; }
+  .sc .sc-pop { animation: sc-pop var(--sc-cycle) ease-out infinite backwards; }
+  .sc .sc-draw { stroke-dasharray: 1; animation: sc-draw var(--sc-cycle) ease-out infinite backwards; }
+  .sc .sc-fill { transform-origin: left center; animation: sc-fill var(--sc-cycle) cubic-bezier(0.3, 0.6, 0.2, 1) infinite backwards; }
+  .sc .sc-letter { animation: sc-letter var(--sc-cycle) cubic-bezier(0.2, 0.7, 0.2, 1.1) infinite backwards; }
+  .sc .sc-bob { animation: sc-bob 1.6s ease-in-out infinite; }
+  .sc .sc-dot { animation: sc-dot 900ms ease-in-out infinite; }
+  .sc .sc-wiggle { transform-origin: 0% 50%; animation: sc-wiggle 1.8s ease-in-out infinite; }
+  .sc .sc-ring { transform-origin: 50% 0%; animation: sc-ring 2.4s ease-in-out infinite; }
+  .sc .sc-arc { opacity: 0; animation: sc-arc 2.4s ease-in-out infinite; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc * { animation: none !important; }
+  .sc .sc-arc { opacity: 1; }
+}
+
+/* ============================================================
+   Hero slides. The hero fills the screen under the sticky header.
+   The timer bar's end advances the slide.
+   ============================================================ */
+
+@keyframes hero-timer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes hero-deck-in { from { opacity: 0; transform: translateY(24px); } }
+
+@layer components {
+  /* 78px: the 77px header plus the 1px scroll sentinel above it. */
+  .hero-full { min-height: calc(100svh - var(--trc-header-h, 78px)); }
+  .hero-timer { animation-name: hero-timer; animation-timing-function: linear; animation-fill-mode: forwards; }
+  /* The card deck settles in on first paint. CSS, not GSAP, so it needs no JavaScript and
+     never waits for it; the headline beside it, the page's largest element, is not animated. */
+  .hero-deck-in { animation: hero-deck-in 600ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms both; }
+
+  /* Slide photos: the front card's photo fades in and settles from a slight zoom over the slide's seven seconds. */
+  .hero-photo { opacity: 0; filter: grayscale(1); transform: scale(1.08); transition: opacity 1s ease, transform 1s ease; }
+  .hero-photo.is-active { opacity: var(--trc-hero-photo-opacity); transform: none; transition: opacity 1s ease, transform 7s linear; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo,
+  .hero-photo.is-active { transform: none; transition: opacity 1s ease; }
+  .hero-deck-in { animation: none; }
+}
+
+/* ============================================================
+   Homepage concept 3 (served at /home-option-2/): the one-time settle of the
+   hero's cards (type sizes are concept 1's tokens), the looping icons, the ribbon
+   strip and the floating testimonial wall.
+   ============================================================ */
+
+/* The hero's entrance, in CSS so it starts with the first paint and never waits for
+   JavaScript. Each animates the individual translate and scale properties, not transform,
+   so GSAP's scroll depth (which writes transform, on wrappers) can never fight it. The
+   headline and the centre photo only move, never fade: they are the page's largest paint
+   (the photo on desktop, the headline on phones), and an element at opacity 0 does not
+   count as painted, so fading them would delay LCP. */
+@keyframes o3-pop { from { opacity: 0; translate: 0 14px; scale: 0.96; } }
+@keyframes o3-rise { from { translate: 0 var(--rise, 14px); } }
+@keyframes o3-fade-up { from { opacity: 0; translate: 0 12px; } }
+@keyframes o3-arc-in { from { opacity: 0; scale: 0.94; } }
+
+@layer components {
+  /* Each item sets its own --d delay, so the scene settles in a short stagger. */
+  .o3-pop { animation: o3-pop 600ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both; }
+  .o3-rise { animation: o3-rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both; }
+  .o3-fade-up { animation: o3-fade-up 600ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both; }
+  .o3-arc-in { animation: o3-arc-in 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) both; }
+}
+
+/* A small press on concept 3's buttons: they scale to 97% while held, so a click feels
+   answered. Unlayered on purpose, so it can add scale to the Tailwind transition list
+   of the element it marks; each element keeps its own duration. */
+.o3-press { transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow, scale; }
+.o3-press:active { scale: 0.97; }
+@media (prefers-reduced-motion: reduce) { .o3-press:active { scale: none; } }
+
+/* Concept 3's loops stop while their section is out of view ([data-offscreen], set by
+   O3Loops), so the page draws no frames for motion nobody can see. Only what moves on its
+   own for good, never a one-shot (the hero entrance, reveals, the FAQ). */
+[data-offscreen] :is(.practice-icon *, .domain-icon *, .o3-loop-bob, .o3-loop-ring, .o3-loop-hop, .o3-p-lift, .o3-p-pop, .o3-p-write, .o3-p-ring, .o3-p-bob, .o3-flow, .o3-climb, .o3-traveller, .o3-track, .marquee-track) {
+  animation-play-state: paused !important;
+}
+
+/* Practice icon parts (PracticeIcon's pi-* paths), looping for good in concept 3. */
+@keyframes pi-left { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-1.5px); } }
+@keyframes pi-right { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(1.5px); } }
+@keyframes pi-tilt { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(12deg); } }
+@keyframes pi-lift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
+@keyframes pi-twinkle { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(45deg) scale(0.8); } }
+@keyframes pi-pop { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.4); opacity: 0.35; } }
+@keyframes pi-wave { 0%, 100% { transform: skewY(0deg); } 50% { transform: skewY(-12deg); } }
+/* Whole-icon loops for single-path icons (the footer's envelope, phone and pin). */
+@keyframes o3-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes o3-ring { 0%, 50%, 100% { transform: rotate(0deg); } 8%, 24%, 40% { transform: rotate(-12deg); } 16%, 32% { transform: rotate(12deg); } }
+@keyframes o3-hop { 0%, 60%, 100% { transform: translateY(0); } 25% { transform: translateY(-3px); } 45% { transform: translateY(-1px); } }
+
+/* How it works: a text line that writes itself, the dot that runs along each lane, the
+   merge mark's flowing dashes. Why TRC: the light that climbs the level ladder. */
+@keyframes o3-write { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.35); } }
+@keyframes o3-travel-x { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes o3-travel-y { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes o3-flow { to { stroke-dashoffset: -20; } }
+@keyframes o3-climb { 0%, 100% { opacity: 0; } 20%, 45% { opacity: 1; } 70% { opacity: 0; } }
+
+@keyframes o3-slide-left { to { transform: translateX(-50%); } }
+@keyframes o3-slide-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+@layer components {
+
+  /* The ribbon strip's moving text: two copies per ribbon, moved by half their width, so the
+     loop has no seam (O3Ribbon sets each ribbon's own duration). Both rest under the pointer. */
+  .o3-track-left { animation: o3-slide-left 80s linear infinite; }
+  .o3-track-right { animation: o3-slide-right 80s linear infinite; }
+  .o3-marquee:hover .o3-track { animation-play-state: paused; }
+
+
+  /* Icons loop for good in concept 3 (its main carries data-icons="loop"). Hovering or
+     focusing an icon's host (.o3-icon-host) quickens the practice icons to about twice
+     the pace; the hosts also lift or tilt their icon. Off with reduced motion. */
+  [data-icons="loop"] .practice-icon * {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation-duration: calc(2.4s * var(--icon-tempo, 1));
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  [data-icons="loop"] .practice-icon .pi-left { animation-name: pi-left; }
+  [data-icons="loop"] .practice-icon .pi-right { animation-name: pi-right; }
+  [data-icons="loop"] .practice-icon .pi-slash { animation-name: pi-tilt; }
+  [data-icons="loop"] .practice-icon .pi-top { animation-name: pi-lift; }
+  [data-icons="loop"] .practice-icon .pi-spark { animation-name: pi-twinkle; }
+  [data-icons="loop"] .practice-icon .pi-spark-sm { animation-name: pi-pop; animation-delay: -1.2s; }
+  [data-icons="loop"] .practice-icon .pi-flag { transform-origin: 0% 50%; animation-name: pi-wave; }
+  [data-icons="loop"] .o3-loop-bob { animation: o3-bob calc(2.4s * var(--icon-tempo, 1)) ease-in-out infinite; }
+  [data-icons="loop"] .o3-loop-ring { transform-origin: 50% 50%; animation: o3-ring calc(2.4s * var(--icon-tempo, 1)) ease-in-out infinite; }
+  [data-icons="loop"] .o3-loop-hop { animation: o3-hop calc(2.4s * var(--icon-tempo, 1)) ease-in-out infinite; }
+  [data-icons="loop"] .o3-icon-host:is(:hover, :focus-visible, :focus-within) { --icon-tempo: 0.45; }
+
+  /* Moving parts of the How it works step icons (O3Process), on the same tempo. */
+  [data-icons="loop"] :is(.o3-p-lift, .o3-p-pop, .o3-p-write, .o3-p-ring, .o3-p-bob) {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation-duration: calc(2.4s * var(--icon-tempo, 1));
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  [data-icons="loop"] .o3-p-lift { animation-name: pi-lift; }
+  [data-icons="loop"] .o3-p-pop { animation-name: pi-pop; }
+  [data-icons="loop"] .o3-p-write { transform-origin: 0% 50%; animation-name: o3-write; }
+  [data-icons="loop"] .o3-p-ring { transform-origin: 50% 0%; animation-name: o3-ring; }
+  [data-icons="loop"] .o3-p-bob { animation-name: o3-bob; }
+
+  /* The dot on each How it works lane: down the line on phones, across from 768px. */
+  .o3-traveller { animation: o3-travel-y calc(5s * var(--icon-tempo, 1)) cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+  @media (min-width: 768px) { .o3-traveller { animation-name: o3-travel-x; } }
+  [data-icons="loop"] .o3-flow { stroke-dasharray: 3 7; animation: o3-flow calc(1.6s * var(--icon-tempo, 1)) linear infinite; }
+  /* Why TRC's ladder: each level lights in turn, lowest first (--i is the level's place). */
+  [data-icons="loop"] .o3-climb { animation: o3-climb calc(3.6s * var(--icon-tempo, 1)) ease-in-out calc(var(--i, 0) * 0.3s) infinite; }
+
+  /* A row that starts at the content column's left edge and runs off the right of
+     the screen: its inline padding is the column's outer margin plus its padding. */
+  .o3-bleed {
+    --o3-pad: 1.25rem;
+    padding-inline: calc(max(0px, (100% - 1400px) / 2) + var(--o3-pad));
+    scroll-padding-inline: calc(max(0px, (100% - 1400px) / 2) + var(--o3-pad));
+    scrollbar-width: none;
+  }
+  .o3-bleed::-webkit-scrollbar { display: none; }
+  @media (min-width: 640px) { .o3-bleed { --o3-pad: 2rem; } }
+  @media (min-width: 1024px) { .o3-bleed { --o3-pad: 3rem; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o3-pop, .o3-rise, .o3-fade-up, .o3-arc-in { animation: none; }
+  .practice-icon *, .o3-loop-bob, .o3-loop-ring, .o3-loop-hop,
+  .o3-p-lift, .o3-p-pop, .o3-p-write, .o3-p-ring, .o3-p-bob, .o3-flow, .o3-climb { animation: none !important; }
+  .o3-traveller { display: none; }
+  .o3-track-left, .o3-track-right { animation: none; }
+}
+
+/* ============================================================
+   Homepage concept 2 (/home-option-2): the editorial type scale
+   and its one first-paint animation. Option 1 does not use these.
+   ============================================================ */
+
+@keyframes o2-image-in { from { clip-path: inset(10% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+@layer components {
+  /* Fluid sizes: 40px on a 375px phone up to 92px on wide screens for the H1;
+     section titles stay a step below it on every screen. */
+  .o2-display { font-size: clamp(2.5rem, 1.6rem + 4.6vw, 5.75rem); line-height: 1.02; letter-spacing: -0.035em; font-weight: 600; }
+  .o2-title { font-size: clamp(2.125rem, 1.5rem + 2.4vw, 3.5rem); line-height: 1.06; letter-spacing: -0.025em; font-weight: 600; }
+  .o2-figure { font-size: clamp(3.25rem, 2.2rem + 4vw, 6rem); line-height: 1; letter-spacing: -0.04em; font-weight: 600; }
+  .o2-quote { font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem); line-height: 1.3; letter-spacing: -0.015em; font-weight: 500; }
+  /* The hero photo opens upward on first paint. CSS, so it never waits for JavaScript. */
+  .o2-image-in { animation: o2-image-in 900ms cubic-bezier(0.2, 0.7, 0.2, 1) 80ms both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o2-image-in { animation: none; }
+}
+
+/* ============================================================
+   Testimonial portrait wall
+   ============================================================ */
+
+@layer components {
+  .wall {
+    --u: 0.42px; /* scales every column's drop with the screen */
+  }
+  @media (min-width: 768px) {
+    .wall { --u: 0.7px; }
+  }
+  @media (min-width: 1024px) {
+    .wall { --u: 1px; }
+  }
+  @media (min-width: 1280px) {
+    .wall { --u: 1.2px; }
+  }
+  @media (min-width: 1536px) {
+    .wall { --u: 1.45px; }
+  }
+
+  .wall-card {
+    transition: transform 220ms ease-out, box-shadow 220ms ease-out;
+    transform-origin: center;
+  }
+  .wall-card:hover {
+    transform: perspective(700px) rotateY(-14deg) rotateX(6deg) translateY(-6px) scale(1.05);
+    box-shadow: var(--trc-shadow-md);
+    z-index: 10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wall-card:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Insights card slider
+   ============================================================ */
+
+@layer components {
+  .insights {
+    --card-w: 78vw;
+    --gap: 16px;
+  }
+  @media (min-width: 640px) {
+    .insights { --card-w: 320px; --gap: 20px; }
+  }
+  @media (min-width: 1024px) {
+    .insights { --card-w: 340px; --gap: 24px; }
+  }
+}
+
+@layer components {
+  /* Line the row and the arrows up with the 1200px content column's left edge. */
+  .insights-edge .insights-track,
+  .insights-edge .insights > div:last-child {
+    padding-inline-start: max(16px, calc((100% - 1200px) / 2 + 16px));
+  }
+}
